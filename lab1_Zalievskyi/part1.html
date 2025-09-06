@@ -2,6 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
+    <a href="https://juggermage.github.io/Internet/"> На головну</a>
     <title>Lab 1(Part 1)</title>
     <script>
         function showMessage1(message) {
@@ -12,7 +13,6 @@
             document.getElementById("t_res2").value = message;
         }
 
-        // Функція для завдання 2
         function calculation() {
             let x = 10;
             let y = 9;
@@ -20,7 +20,6 @@
             alert("Результат: F = " + result);
         }
 
-        // Функція для завдання 4
         function calculateF() {
             let x = parseFloat(document.getElementById("valX").value);
             let y = parseFloat(document.getElementById("valY").value);
@@ -37,7 +36,6 @@
             document.getElementById("resultF").value = "F = " + F;
         }
 
-        // Функція для завдання 5
         function calculateSeries() {
             let x = parseFloat(document.getElementById("seriesX").value);
             let y = parseFloat(document.getElementById("seriesY").value);
@@ -81,15 +79,12 @@
     <p>Демонстрація подій onchange та onmouseout.</p>
 
     <form id="main_form">
-        <!-- Перше поле: onchange -->
         <input type="text" size="50" placeholder="Зміни текст тут (onchange)"
                onchange="showMessage1('Текст у першому полі був змінений');"><br><br>
 
-        <!-- Друге поле: onmouseout -->
         <input type="text" size="50" placeholder="Наведи і відведи мишку (onmouseout)"
                onmouseout="showMessage2('Курсор вийшов за межі другого поля');"><br><br>
 
-        <!-- Поля для виводу повідомлень -->
         <input type="text" size="50" id="t_res" placeholder="Результат onchange"><br><br>
         <input type="text" size="50" id="t_res2" placeholder="Результат onmouseout"><br>
     </form>
