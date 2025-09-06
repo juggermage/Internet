@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 1(Part 1)</title>
+    <script>
+        function showMessage1(message) {
+            document.getElementById("t_res").value = message;
+        }
+
+        function showMessage2(message) {
+            document.getElementById("t_res2").value = message;
+        }
+
+        // Функція для завдання 2
+        function calculation() {
+            let x = 10;
+            let y = 9;
+            let result = x + Math.sqrt(y);
+            alert("Результат: F = " + result);
+        }
+
+        // Функція для завдання 4
+        function calculateF() {
+            let x = parseFloat(document.getElementById("valX").value);
+            let y = parseFloat(document.getElementById("valY").value);
+            let F;
+
+            if (x < 3 * y) {
+                F = 2 * x + 3 * y;
+            } else if ((y * y > 2 * x * y) || (y > 0)) {
+                F = x * y + x / (3 * y);
+            } else {
+                F = x * x + y;
+            }
+
+            document.getElementById("resultF").value = "F = " + F;
+        }
+
+        // Функція для завдання 5
+        function calculateSeries() {
+            let x = parseFloat(document.getElementById("seriesX").value);
+            let y = parseFloat(document.getElementById("seriesY").value);
+            let sum = 0;
+
+            for (let i = 7; i <= 9; i++) {
+                sum += Math.pow(-1, i + 1) * ((x + y) / (i + 1));
+            }
+
+            document.getElementById("seriesResult").value = "S = " + sum;
+        }
+    </script>
+</head>
+<body>
+    <h3>Завдання 1.</h3>
+    <p>Це звичайний HTML абзац.</p>
+
+    <script>
+        document.write("Привіт! Мене звати Залєвський Руслан Вікторович, студент групи ІПЗ-22");
+    </script>
+
+    <p>Знову звичайний HTML абзац.</p>
+
+    <form>
+        <input type="button" value="Click me" 
+               onclick="alert('Я народився 19.04.2007 року в місті Івано-Франківськ')">
+    </form>
+
+    <hr>
+
+    <h3>Завдання 2.</h3>
+    <p>Формула: F = x + √y</p>
+
+    <form>
+        <input type="button" value="Calculate" onClick="calculation()">
+    </form>
+
+    <hr>
+
+    <h3>Завдання 3.</h3>
+    <p>Демонстрація подій onchange та onmouseout.</p>
+
+    <form id="main_form">
+        <!-- Перше поле: onchange -->
+        <input type="text" size="50" placeholder="Зміни текст тут (onchange)"
+               onchange="showMessage1('Текст у першому полі був змінений');"><br><br>
+
+        <!-- Друге поле: onmouseout -->
+        <input type="text" size="50" placeholder="Наведи і відведи мишку (onmouseout)"
+               onmouseout="showMessage2('Курсор вийшов за межі другого поля');"><br><br>
+
+        <!-- Поля для виводу повідомлень -->
+        <input type="text" size="50" id="t_res" placeholder="Результат onchange"><br><br>
+        <input type="text" size="50" id="t_res2" placeholder="Результат onmouseout"><br>
+    </form>
+
+    <hr>
+
+    <h3>Завдання 4.</h3>
+    <p>Розгалужене обчислення за формулою варіанту 8:</p>
+    <pre>
+F = {
+   2x + 3y, якщо x < 3y
+   xy + x/(3y), якщо (y² > 2xy) або (y > 0)
+   x² + y, інакше
+}
+    </pre>
+
+    <form>
+        Введіть x: <input type="number" id="valX"><br><br>
+        Введіть y: <input type="number" id="valY"><br><br>
+        <input type="button" value="Обчислити F" onclick="calculateF()"><br><br>
+        Результат: <input type="text" id="resultF" readonly>
+    </form>
+
+    <hr>
+
+    <h3>Завдання 5.</h3>
+    <p>Обчислення суми ряду:</p>
+    <pre>
+S = Σ від i=7 до 9 [ (-1)^(i+1) * (i! * (x+y)) / (i+1)! ]
+    </pre>
+
+    <form>
+        Введіть x: <input type="number" id="seriesX"><br><br>
+        Введіть y: <input type="number" id="seriesY"><br><br>
+        <input type="button" value="Обчислити S" onclick="calculateSeries()"><br><br>
+        Результат: <input type="text" id="seriesResult" readonly>
+    </form>
+
+</body>
+</html>
