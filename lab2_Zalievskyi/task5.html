@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Завдання 5</title>
+<a href="Lab2.html"> Назад</a>
+<script>
+function testConsoleMethods() {
+    console.info(" Інформаційне повідомлення (console.info)");
+
+    console.warn(" Попередження! (console.warn)");
+
+    console.error(" Помилка! (console.error)");
+
+    let obj = {name: "Ruslan", age: 18, skills: ["JS", "HTML", "CSS"]};
+    console.dir(obj);
+
+    console.dirxml(document.body);
+
+    console.time("Вимір часу");
+    let sum = 0;
+    for (let i = 0; i < 1e6; i++) sum += i;
+    console.timeEnd("Вимір часу");
+
+    let x = 10;
+    console.assert(x > 20, "Assert: x НЕ більше 20, а дорівнює", x);
+    console.assert(x === 10, "Це повідомлення не з’явиться, бо умова істинна");
+}
+</script>
+</head>
+<body onload="testConsoleMethods()">
+<h3>Методи console.*</h3>
+<p>Відкрий <b>DevTools → Console</b>, щоб побачити результати роботи.</p>
+</body>
+</html>

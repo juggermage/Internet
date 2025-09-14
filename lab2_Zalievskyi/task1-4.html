@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>Завдання 1-4</title>
+<a href="Lab2.html"> Назад</a>
+<script>
+// ================= ГОДИННИК =================
+let datetimeStr;
+function clock() {
+    now = new Date();
+
+    year = now.getFullYear();
+    month = now.getMonth() + 1;
+    day = now.getDate();
+
+    hours = now.getHours();
+    minutes = now.getMinutes();
+    seconds = now.getSeconds();
+
+    datetimeStr  = "" + year;
+    datetimeStr += ((month < 10) ? ":0" : ":") + month;
+    datetimeStr += ((day < 10) ? ":0" : ":") + day;
+    datetimeStr += ((hours < 10) ? ":0" : ":") + hours;
+    datetimeStr += ((minutes < 10) ? ":0" : ":") + minutes;
+    datetimeStr += ((seconds < 10) ? ":0" : ":") + seconds;
+
+    document.clock.datetime.value = datetimeStr;
+    Timer = setTimeout("clock()", 1000);
+}
+
+// ================= МАТРИЦЯ =================
+let str, stb;
+function fun() {
+    str = parseInt(main_form.t_str.value);
+    stb = parseInt(main_form.t_stb.value);
+
+    let res_str = "<table border='1' cellspacing='0' cellpadding='3'>\n";
+    for (let i = 1; i <= str; i++) {
+        res_str += "<tr>\n";
+        for (let j = 1; j <= stb; j++) {
+            let val = 11 * j + i;
+            res_str += "<td>";
+            res_str += "<input type='text' id='_" + i + "_" + j + "' value='" + val + "' size='5'>";
+            res_str += "</td>\n";
+        }
+        res_str += "</tr>\n";
+    }
+    res_str += "</table>";
+    main_div.innerHTML = res_str;
+}
+function fun_build() {
+    if (stb < 3) {
+        alert("Матриця має менше ніж 3 стовпці!");
+        return;
+    }
+    let sum = 0;
+    for (let i = 1; i <= str; i++) {
+        let cellId = "_" + i + "_3";
+        let val = parseInt(document.getElementById(cellId).value);
+        sum += val;
+    }
+    alert("Сума елементів 3-го стовпця = " + sum);
+}
+
+// ================= console.log() =================
+function testConsole() {
+    let a = 17, b = 5;
+    let remainder = a % b;
+    console.log("Остача від ділення " + a + " на " + b + " дорівнює " + remainder);
+    console.log("Остача (через кому):", remainder);
+
+    let isDivisible = (a % b === 0);
+    console.log("Чи ділиться " + a + " на " + b + " без остачі? → " + isDivisible);
+    console.log("Через кому:", isDivisible);
+
+    let arr = [10, 20, 30, 40];
+    console.log("Значення масиву: %d, %d, %d", arr[0], arr[1], arr[2]);
+    console.log("Перший елемент як рядок: %s", arr[0]);
+    console.log("У масиві %s %d елементи: %d, %d, %d, %d", "arr має довжину", arr.length, arr[0], arr[1], arr[2], arr[3]);
+}
+</script>
+</head>
+<body onLoad="clock(); testConsole();">
+
+<!-- ГОДИННИК -->
+<h3> Годинник</h3>
+<form name="clock">
+<input type="text" name="datetime" size="20" value="">
+</form>
+
+<hr>
+
+<!-- КАЛЬКУЛЯТОР -->
+<h3> Калькулятор</h3>
+<form name="calc">
+<input type="text" name="display" size="25" value=""><br><br>
+<input type="button" value="7" onClick="document.calc.display.value += '7'">
+<input type="button" value="8" onClick="document.calc.display.value += '8'">
+<input type="button" value="9" onClick="document.calc.display.value += '9'">
+<input type="button" value="+" onClick="document.calc.display.value += '+'"><br>
+
+<input type="button" value="4" onClick="document.calc.display.value += '4'">
+<input type="button" value="5" onClick="document.calc.display.value += '5'">
+<input type="button" value="6" onClick="document.calc.display.value += '6'">
+<input type="button" value="-" onClick="document.calc.display.value += '-'"><br>
+
+<input type="button" value="1" onClick="document.calc.display.value += '1'">
+<input type="button" value="2" onClick="document.calc.display.value += '2'">
+<input type="button" value="3" onClick="document.calc.display.value += '3'">
+<input type="button" value="*" onClick="document.calc.display.value += '*'"><br>
+
+<input type="button" value="0" onClick="document.calc.display.value += '0'">
+<input type="button" value="." onClick="document.calc.display.value += '.'">
+<input type="button" value="=" onClick="document.calc.display.value = eval(document.calc.display.value)">
+<input type="button" value="/" onClick="document.calc.display.value += '/'"><br><br>
+
+<input type="button" value="C" onClick="document.calc.display.value = ''">
+</form>
+
+<hr>
+
+<!-- МАТРИЦЯ -->
+<h3> Матриця (варіант 8)</h3>
+<form id="main_form">
+<table>
+<tr>
+<td>Кількість рядків</td>
+<td><input type="text" id="t_str" value="5"></td>
+</tr>
+<tr>
+<td>Кількість стовпців</td>
+<td><input type="text" id="t_stb" value="5"></td>
+</tr>
+<tr>
+<td><input type="button" onClick="fun();" value="Побудувати матрицю"></td>
+</tr>
+<tr>
+<td><input type="button" onClick="fun_build();" value="Розрахувати"></td>
+</tr>
+</table>
+</form>
+<div id="main_div"></div>
+
+<hr>
+
+<h3> Перевірка console.log()</h3>
+<p>Результати дивись у <b>Console</b> (F12 → вкладка Console).</p>
+
+</body>
+</html>
