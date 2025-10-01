@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Усі завдання</title>
+</head>
+<body>
+  <h1>Завдання 1: Розрахунок площі чотирикутника</h1>
+  <label>Сторона a: <input type="number" id="a"></label><br>
+  <label>Сторона b: <input type="number" id="b"></label><br>
+  <label>Сторона c: <input type="number" id="c"></label><br>
+  <label>Сторона d: <input type="number" id="d"></label><br>
+  <label>Кут між a і b (градуси): <input type="number" id="angle"></label><br>
+  <p>Площа: <span id="area">0</span></p>
+
+  <hr>
+
+  <h1>Завдання 2–3: Екранна клавіатура</h1>
+  <textarea id="keyboardOutput" rows="3" cols="50"></textarea><br>
+  <div id="keyboard"></div>
+  <button onclick="clearOutput()">Очистити поле</button>
+  <button onclick="toggleLayout()">Alt+Shift</button>
+
+  <hr>
+
+  <h1>Завдання 4: Перегляд зображень</h1>
+  <img id="viewer" width="300" height="200" alt="Зображення"><br>
+  <button id="prev">Назад</button>
+  <button id="next">Вперед</button>
+
+  <hr>
+
+  <h1>Завдання 5: Арифметичні завдання</h1>
+  <p id="task"></p>
+  <input type="number" id="answer">
+  <button onclick="checkAnswer()">Перевірити</button>
+  <button onclick="nextTask()">Наступне завдання</button>
+  <p id="feedback"></p>
+  <p id="score"></p>
+
+  <hr>
+
+  <h1>Завдання 6: Дерево ієрархії</h1>
+  <ul id="tree">
+    <li><span class="toggle">fruits</span>
+      <ul>
+        <li>apple</li>
+        <li>pineapple</li>
+        <li>appricot</li>
+        <li>pear</li>
+        <li>lemon</li>
+      </ul>
+    </li>
+    <li><span class="toggle">vegetables</span>
+      <ul>
+        <li>potatoes</li>
+        <li>beetroot</li>
+        <li>carrots</li>
+        <li>pear</li>
+      </ul>
+    </li>
+  </ul>
+
+<script>
+/* === Завдання 1 === */
+function calculateArea() {
+  let a = parseFloat(document.getElementById('a').value) || 0;
+  let b = parseFloat(document.getElementById('b').value) || 0;
+  let c = parseFloat(document.getElementById('c').value) || 0;
+  let d = parseFloat(document.getElementById('d').value) || 0;
+  let angle = parseFloat(document.getElementById('angle').value) || 0;
+
+  let rad = angle * Math.PI / 180;
+  let area = ((a * b) / 2 + (c * d) / 2) * Math.sin(rad);
+  document.getElementById('area').textContent = area.toFixed(2);
+}
+['a','b','c','d','angle'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', calculateArea);
+});
+
+/* === Завдання 2–3 === */
+let ua = ['а','б','в','г','д','е','є','и','і','ї','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц','ч','ш','щ','ь','ю','я'];
+let en = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+let digits = ['0','1','2','3','4','5','6','7','8','9'];
+let currentLayout = ua;
+
+function renderKeyboard() {
+  let keyboardDiv = document.getElementById("keyboard");
+  keyboardDiv.innerHTML = "";
+
+  let row1 = document.createElement("div");
+  digits.forEach(ch => {
+    let btn = document.createElement("button");
+    btn.textContent = ch;
+    btn.onclick = () => document.getElementById("keyboardOutput").value += ch;
+    row1.appendChild(btn);
+  });
+  keyboardDiv.appendChild(row1);
+
+  // 3 рядки літер
+  let lettersPerRow = Math.ceil(currentLayout.length / 3);
+  for (let i = 0; i < 3; i++) {
+    let row = document.createElement("div");
+    currentLayout.slice(i * lettersPerRow, (i + 1) * lettersPerRow).forEach(ch => {
+      let btn = document.createElement("button");
+      btn.textContent = ch;
+      btn.onclick = () => document.getElementById("keyboardOutput").value += ch;
+      row.appendChild(btn);
+    });
+    keyboardDiv.appendChild(row);
+  }
+}
+function clearOutput() {
+  document.getElementById("keyboardOutput").value = "";
+}
+function toggleLayout() {
+  currentLayout = (currentLayout === ua) ? en : ua;
+  renderKeyboard();
+}
+renderKeyboard();
+
+/* === Завдання 4 === */
+let images = ['file1.jpg','file2.gif','file3.gif','file4.png'];
+let currentIndex = 0;
+const viewer = document.getElementById("viewer");
+function showImage() { viewer.src = images[currentIndex]; }
+document.getElementById("next").onclick = () => {
+  currentIndex = (currentIndex + 1) % images.length; showImage();
+};
+document.getElementById("prev").onclick = () => {
+  currentIndex = (currentIndex - 1 + images.length) % images.length; showImage();
+};
+showImage();
+
+/* === Завдання 5 === */
+let totalQuestions = 5;
+let currentQuestion = 0;
+let correctAnswers = 0;
+let num1, num2, operator, correctResult;
+function generateTask() {
+  num1 = Math.floor(Math.random()*10);
+  num2 = Math.floor(Math.random()*10);
+  let ops = ['+','-','*','/'];
+  operator = ops[Math.floor(Math.random()*ops.length)];
+  if (operator === '/' && num2 === 0) num2 = 1;
+  correctResult = eval(num1 + operator + num2);
+  document.getElementById("task").textContent = `${num1} ${operator} ${num2} = ?`;
+}
+function checkAnswer() {
+  let ans = parseFloat(document.getElementById("answer").value);
+  if (ans === correctResult) {
+    document.getElementById("feedback").textContent = "Правильно!";
+    correctAnswers++;
+  } else {
+    document.getElementById("feedback").textContent = `Помилка, правильна відповідь «${correctResult}»`;
+  }
+  document.getElementById("score").textContent =
+    `Загальний рахунок: ${correctAnswers} правильних з ${currentQuestion+1}`;
+}
+function nextTask() {
+  currentQuestion++;
+  if (currentQuestion < totalQuestions) {
+    generateTask();
+    document.getElementById("answer").value = "";
+    document.getElementById("feedback").textContent = "";
+  } else {
+    let percent = Math.round((correctAnswers/totalQuestions)*100);
+    document.getElementById("task").textContent =
+      `Тест завершено! Результат: ${percent}% (${correctAnswers} з ${totalQuestions})`;
+  }
+}
+generateTask();
+
+/* === Завдання 6 === */
+document.querySelectorAll("#tree .toggle").forEach(span=>{
+  span.style.cursor = "pointer";
+  let ul = span.nextElementSibling;
+  if (ul) ul.style.display = "none";
+  span.onclick = function() {
+    let ul = this.nextElementSibling;
+    if (ul.style.display === "none") {
+      ul.style.display = "block";
+    } else {
+      ul.style.display = "none";
+    }
+  };
+});
+</script>
+</body>
+</html>
