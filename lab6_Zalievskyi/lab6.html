@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<a href="https://juggermage.github.io/Internet/">Повернутися на головну</a>
+<title>Лабораторна робота — Валідація форми</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  form {
+    width: 400px;
+  }
+  label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  input {
+    width: 100%;
+    padding: 6px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  .valid {
+    border-color: green;
+    color: green;
+  }
+  .invalid {
+    border-color: red;
+    color: red;
+  }
+  .msg {
+    font-size: 13px;
+    color: red;
+    margin-left: 5px;
+  }
+  .ok {
+    color: green;
+    margin-left: 5px;
+  }
+  button {
+    margin-top: 15px;
+    padding: 8px 15px;
+    font-size: 15px;
+  }
+  hr {
+    margin-top: 25px;
+  }
+</style>
+</head>
+<body>
+
+<h2>Завдання 1. Вивід елементів e-mail</h2>
+<div id="emailParts"></div>
+
+<hr>
+
+<h2>Завдання 2. Валідація форми</h2>
+
+<form id="myForm">
+  <label>Електронна пошта:</label>
+  <input type="text" id="email">
+  <span id="emailMsg"></span>
+
+  <label>Ім’я та прізвище:</label>
+  <input type="text" id="fullname">
+  <span id="fullnameMsg"></span>
+
+  <label>Логін:</label>
+  <input type="text" id="login">
+  <span id="loginMsg"></span>
+
+  <label>Пароль:</label>
+  <input type="password" id="password">
+  <span id="passwordMsg"></span>
+
+  <label>Поштовий індекс:</label>
+  <input type="text" id="zipcode">
+  <span id="zipcodeMsg"></span>
+
+  <button type="button" onclick="validateForm()">Перевірити</button>
+</form>
+
+<script>
+// --- Завдання 1 ---
+let s = "dwbyu@mail.ua";
+let r = /^([a-z0-9]+)(\.[a-z0-9]+)*@([a-z0-9]+)(\.[a-z0-9]+)*$/i;
+let a = s.match(r);
+
+let out = "";
+for (let i = 0; i < a.length; i++) {
+  out += "<hr> a[" + i + "] = " + a[i];
+}
+document.getElementById("emailParts").innerHTML = out;
+
+// --- Завдання 2.2 ---
+function validateForm() {
+  // регулярні вирази
+  let emailRe = /^[\w.-]+@pnu\.edu\.ua$/i;
+  let fullnameRe = /^[A-ZА-ЯЇІЄ][a-zа-яїіє']+\s+[A-ZА-ЯЇІЄ]+$/;
+  let loginRe = /^[A-Za-z]+$/;
+  let passwordRe = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[_\-!@#$%^&*])[A-Za-z\d_\-!@#$%^&*]{8,}$/;
+  let zipcodeRe = /^\d{5}$/;
+
+  // поля
+  let email = document.getElementById("email");
+  let fullname = document.getElementById("fullname");
+  let login = document.getElementById("login");
+  let password = document.getElementById("password");
+  let zipcode = document.getElementById("zipcode");
+
+  // перевірка кожного поля
+  checkField(email, emailRe, "повинен містити @pnu.edu.ua");
+  checkField(fullname, fullnameRe, "Приклад: Іван ІВАНОВ");
+  checkField(login, loginRe, "тільки латинські літери");
+  checkField(password, passwordRe, "мін. 8 символів, 1 літера, 1 цифра, 1 спецсимвол");
+  checkField(zipcode, zipcodeRe, "5 цифр");
+}
+
+function checkField(field, regex, errorMsg) {
+  let msg = document.getElementById(field.id + "Msg");
+  if (regex.test(field.value.trim())) {
+    field.classList.remove("invalid");
+    field.classList.add("valid");
+    msg.innerHTML = "✅";
+    msg.className = "ok";
+  } else {
+    field.classList.remove("valid");
+    field.classList.add("invalid");
+    msg.innerHTML = "❌ " + errorMsg;
+    msg.className = "msg";
+  }
+}
+</script>
+
+</body>
+</html>
