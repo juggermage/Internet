@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Робота з рядками</title>
+  <a href="https://juggermage.github.io/Internet/">Повернутися на головну</a>
+</head>
+<body>
+
+  <h1>Робота з рядками (JavaScript)</h1>
+
+  <!-- Завдання 1 -->
+  <h2>Завдання 1: Довжина рядка</h2>
+  <input type="text" id="str1" placeholder="Введіть рядок">
+  <button onclick="task1()">Обчислити</button>
+  <div id="res1" class="result"></div>
+
+  <!-- Завдання 2 -->
+  <hr>
+  <h2>Завдання 2: Верхній і нижній регістр</h2>
+  <input type="text" id="str2" placeholder="Введіть рядок">
+  <button onclick="task2()">Перетворити</button>
+  <div id="res2" class="result"></div>
+
+  <!-- Завдання 3 -->
+  <hr>
+  <h2>Завдання 3: Пошук індексу символу</h2>
+  <input type="text" id="str3" placeholder="Введіть рядок">
+  <input type="text" id="char3" placeholder="Введіть символ">
+  <button onclick="task3()">Знайти</button>
+  <div id="res3" class="result"></div>
+
+  <!-- Завдання 4 -->
+  <hr>
+  <h2>Завдання 4: Кількість входжень символу</h2>
+  <input type="text" id="str4" placeholder="Введіть рядок">
+  <input type="text" id="char4" placeholder="Введіть символ">
+  <button onclick="task4()">Порахувати</button>
+  <div id="res4" class="result"></div>
+
+  <!-- Завдання 5 -->
+  <hr>
+  <h2>Завдання 5: Міняємо місцями кожні два символи</h2>
+  <input type="text" id="str5" placeholder="Введіть рядок">
+  <button onclick="task5()">Змінити</button>
+  <div id="res5" class="result"></div>
+
+  <!-- Завдання 6 -->
+  <hr>
+  <h2>Завдання 6: Перевірка на спам</h2>
+  <textarea id="str6" rows="3" placeholder="Введіть текст"></textarea>
+  <button onclick="task6()">Перевірити</button>
+  <div id="res6" class="result"></div>
+
+  <!-- Завдання 7 -->
+  <hr>
+  <h2>Завдання 7: Скорочення рядка</h2>
+  <input type="text" id="str7" placeholder="Введіть рядок">
+  <input type="number" id="len7" placeholder="Максимальна довжина">
+  <button onclick="task7()">Скоротити</button>
+  <div id="res7" class="result"></div>
+
+  <!-- Завдання 8 -->
+  <hr>
+  <h2>Завдання 8: Видалення пробілів у середині рядка</h2>
+  <input type="text" id="str8" placeholder="Введіть рядок (наприклад: ' Hello World ')">
+  <button onclick="task8()">Видалити пробіли всередині</button>
+  <div id="res8" class="result"></div>
+
+  <!-- Завдання 9 -->
+  <hr>
+  <h2>Завдання 9: Перевірка на три однакові символи поспіль</h2>
+  <input type="text" id="str10" placeholder="Введіть рядок (наприклад: 'aabbbcc')">
+  <button onclick="task9()">Перевірити</button>
+  <div id="res10" class="result"></div>
+
+  <!-- Завдання 10 -->
+  <hr>
+  <h2>Завдання 10: Перевірка на підрядок з однакових літер</h2>
+  <input type="text" id="str11" placeholder="Введіть рядок (наприклад: 'aaaabbbbcc')">
+  <button onclick="task10()">Перевірити</button>
+  <div id="res11" class="result"></div>
+
+  <script>
+    // Завдання 1
+    function task1() {
+      let str = document.getElementById("str1").value;
+      document.getElementById("res1").innerText = "Довжина рядка: " + str.length;
+    }
+
+    // Завдання 2
+    function task2() {
+      let str = document.getElementById("str2").value;
+      let upper = str.toUpperCase();
+      let lower = str.toLowerCase();
+      document.getElementById("res2").innerHTML = `Верхній регістр: ${upper}<br>Нижній регістр: ${lower}`;
+    }
+
+    // Завдання 3
+    function task3() {
+      let str = document.getElementById("str3").value;
+      let char = document.getElementById("char3").value;
+      let index = str.indexOf(char);
+      document.getElementById("res3").innerText = "Індекс символу: " + index;
+    }
+
+    // Завдання 4
+    function task4() {
+      let str = document.getElementById("str4").value;
+      let char = document.getElementById("char4").value;
+      let count = 0;
+      for (let c of str) if (c === char) count++;
+      document.getElementById("res4").innerText = `Кількість входжень '${char}': ${count}`;
+    }
+
+    // Завдання 5
+    function task5() {
+      let str = document.getElementById("str5").value;
+      let result = "";
+      for (let i = 0; i < str.length; i += 2) {
+        if (i + 1 < str.length) result += str[i + 1] + str[i];
+        else result += str[i];
+      }
+      document.getElementById("res5").innerText = "Результат: " + result;
+    }
+
+    // Завдання 6
+    function task6() {
+      let str = document.getElementById("str6").value.toLowerCase();
+      let spamWords = ["100% безкоштовно", "збільшення продажів", "тільки сьогодні", "не видаляйте"];
+      let isSpam = spamWords.some(word => str.includes(word));
+      document.getElementById("res6").innerText = isSpam ? "⚠️ Виявлено спам!" : "✅ Спаму не знайдено.";
+    }
+
+    // Завдання 7
+    function task7() {
+      let str = document.getElementById("str7").value;
+      let maxLen = parseInt(document.getElementById("len7").value);
+      if (str.length > maxLen) {
+        str = str.slice(0, maxLen - 3) + "...";
+      }
+      document.getElementById("res7").innerText = "Результат: " + str;
+    }
+
+    // Завдання 8
+    function task8() {
+      let str = document.getElementById("str8").value;
+      let startSpaces = str.match(/^ */)[0];
+      let endSpaces = str.match(/ *$/)[0];
+      let middle = str.trim().replace(/\s+/g, "");
+      let result = startSpaces + middle + endSpaces;
+      document.getElementById("res8").innerText = "Результат: '" + result + "'";
+    }
+
+
+    // Завдання 9
+    function task9() {
+      let str = document.getElementById("str10").value;
+      let found = /(.)\1\1/.test(str); // три однакових поспіль
+      document.getElementById("res10").innerText = found ? "true (є три однакові поспіль)" : "false";
+    }
+
+    // Завдання 10
+    function task10() {
+      let str = document.getElementById("str11").value;
+      let found = /(.)\1{1,}/.test(str); // будь-який підрядок з однакових літер
+      document.getElementById("res11").innerText = found ? "true (є підрядок з однакових літер)" : "false";
+    }
+  </script>
+
+</body>
+</html>
