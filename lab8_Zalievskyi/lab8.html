@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab8</title>
+  <div class="nav-buttons">
+    <a href="https://juggermage.github.io/Internet/" class="btn-nav">На головну</a>
+  </div>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Завдання 1 -->
+    <section class="card">
+      <h2>Завдання 1. Часова логіка</h2>
+      <label>Додати секунд:</label>
+      <input type="number" id="secInput" placeholder="Вкажіть кількість секунд">
+      <button onclick="displayTime()">Показати час</button>
+      <button onclick="updateTime()">Додати секунди</button>
+      <div id="task1-out" class="result"></div>
+    </section>
+
+    <!-- Завдання 2 -->
+    <section class="card">
+      <h2>Завдання 2. Робота з датами</h2>
+
+      <p>2.1 Поточна дата та час</p>
+      <button onclick="showNow()">Показати</button>
+      <div id="dateResult" class="result"></div>
+
+      <h3>2.2. Знайти останній день місяця</h3>
+      <label>Рік:</label>
+      <input type="number" id="yearField">
+      <label>Місяць (1–12):</label>
+      <input type="number" id="monthField">
+      <button onclick="showLastDay()">Розрахувати</button>
+      <div id="lastDayResult" class="result"></div>
+
+      <h3>2.3. Секунди дня</h3>
+      <button onclick="showSeconds()">Порахувати</button>
+      <div id="secResult" class="result"></div>
+    </section>
+
+    <!-- Завдання 3 -->
+    <section class="card">
+      <h2>Завдання 3. Клас Car</h2>
+      <div id="carInfo" class="result"></div>
+    </section>
+
+    <!-- Завдання 4 -->
+    <section class="card">
+      <h2>Завдання 4. Клас ElectricCar</h2>
+      <div id="electricInfo" class="result"></div>
+    </section>
+
+    <!-- Завдання 5 -->
+    <section class="card">
+      <h2>Завдання 5. Статичний метод</h2>
+      <div id="mathInfo" class="result"></div>
+    </section>
+
+    <!-- Завдання 6 (оновлено) -->
+    <section class="card">
+      <h2>Завдання 6. Класи Person та Employee</h2>
+      <label>Ім’я:</label>
+      <input type="text" id="nameInput" placeholder="Введіть ім’я">
+      <label>Вік:</label>
+      <input type="number" id="ageInput" placeholder="Введіть вік">
+      <label>Посада:</label>
+      <input type="text" id="positionInput" placeholder="Введіть посаду">
+      <button onclick="showPersonInfo()">Показати інформацію</button>
+      <button class="btn-clear" onclick="resetFields()">Очистити поля</button>
+      <div id="personOutput" class="result"></div>
+    </section>
+
+  </div>
+
+  <script>
+    // ---------------- Завдання 1 ----------------
+    const clock = { h: 12, m: 20, s: 30 };
+
+    function timeString() {
+      return `${clock.h.toString().padStart(2,'0')}:${clock.m.toString().padStart(2,'0')}:${clock.s.toString().padStart(2,'0')}`;
+    }
+
+    function displayTime() {
+      document.getElementById("task1-out").innerText = "Поточний час: " + timeString();
+    }
+
+    function updateTime() {
+      const extra = parseInt(document.getElementById("secInput").value) || 0;
+      let total = clock.h * 3600 + clock.m * 60 + clock.s + extra;
+      total = ((total % 86400) + 86400) % 86400;
+      clock.h = Math.floor(total / 3600);
+      clock.m = Math.floor((total % 3600) / 60);
+      clock.s = total % 60;
+      displayTime();
+    }
+
+    // ---------------- Завдання 2 ----------------
+    function showNow() {
+      const now = new Date();
+      const days = ["неділя","понеділок","вівторок","середа","четвер","п’ятниця","субота"];
+      const months = ["січня","лютого","березня","квітня","травня","червня","липня","серпня","вересня","жовтня","листопада","грудня"];
+      document.getElementById("dateResult").innerHTML = 
+        `Сьогодні: ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}<br>День тижня: ${days[now.getDay()]}<br>Час: ${now.toLocaleTimeString()}`;
+    }
+
+    function showLastDay() {
+      const y = parseInt(document.getElementById("yearField").value);
+      const m = parseInt(document.getElementById("monthField").value);
+      if (!y || !m || m < 1 || m > 12) {
+        document.getElementById("lastDayResult").innerText = "Будь ласка, введіть правильні дані!";
+        return;
+      }
+      const day = new Date(y, m, 0).getDate();
+      document.getElementById("lastDayResult").innerText = `Останній день цього місяця: ${day}`;
+    }
+
+    function showSeconds() {
+      const now = new Date();
+      const passed = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+      const remain = 86400 - passed;
+      document.getElementById("secResult").innerHTML = `Минуло: ${passed} секунд<br>Залишилось до кінця дня: ${remain}`;
+    }
+
+    // ---------------- Завдання 3 ----------------
+    class Car {
+      constructor(brand, model, year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+      }
+      info() {
+        return `${this.brand} ${this.model}, випуск: ${this.year}`;
+      }
+    }
+    const myCar = new Car("Mazda", "CX-5", 2021);
+    document.getElementById("carInfo").innerText = myCar.info();
+
+    // ---------------- Завдання 4 ----------------
+    class ElectricCar extends Car {
+      constructor(brand, model, year, capacity) {
+        super(brand, model, year);
+        this.capacity = capacity;
+      }
+      charge() {
+        return `Авто ${this.brand} заряджається... Потужність батареї ${this.capacity} kWh`;
+      }
+    }
+    const nissan = new ElectricCar("Nissan", "Leaf", 2023, 62);
+    document.getElementById("electricInfo").innerHTML = `${nissan.info()}<br>${nissan.charge()}`;
+
+    // ---------------- Завдання 5 ----------------
+    class Calculator {
+      static multiply(a, b) {
+        return a * b;
+      }
+    }
+    document.getElementById("mathInfo").innerText = `Результат Calculator.multiply(6, 8): ${Calculator.multiply(6, 8)}`;
+
+    // ---------------- Завдання 6 ----------------
+    class Person {
+      constructor(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      sayHello() {
+        return `Привіт! Мене звати ${this.name}, мені ${this.age} років.`;
+      }
+    }
+
+    class Employee extends Person {
+      constructor(name, age, position) {
+        super(name, age);
+        this.position = position;
+      }
+      work() {
+        return `${this.name} працює на посаді: ${this.position}.`;
+      }
+
+      static companyInfo() {
+        return "Компанія: Creative Minds Ltd.";
+      }
+    }
+
+    function showPersonInfo() {
+      const name = document.getElementById("nameInput").value.trim();
+      const age = document.getElementById("ageInput").value.trim();
+      const position = document.getElementById("positionInput").value.trim();
+
+      if (!name || !age || !position) {
+        document.getElementById("personOutput").innerText = "Будь ласка, заповніть усі поля!";
+        return;
+      }
+
+      const emp = new Employee(name, age, position);
+      const result = `${emp.sayHello()}<br>${emp.work()}<br>${Employee.companyInfo()}`;
+      document.getElementById("personOutput").innerHTML = result;
+    }
+
+    function resetFields() {
+      document.getElementById("nameInput").value = "";
+      document.getElementById("ageInput").value = "";
+      document.getElementById("positionInput").value = "";
+      document.getElementById("personOutput").innerHTML = "";
+    }
+  </script>
+</body>
+</html>
