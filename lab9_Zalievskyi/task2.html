@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Завдання 2 — Анімований логотип ІПЗ</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: radial-gradient(circle at center, #e8f5e9, #c8e6c9);
+      margin: 0;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #1b5e20;
+      margin-top: 30px;
+    }
+
+    #logo {
+      position: relative;
+      width: 350px;
+      height: 350px;
+      margin: 80px auto;
+    }
+
+    .gear {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 150px;
+      height: 150px;
+      transform: translate(-50%, -50%);
+      background: conic-gradient(from 0deg, #4caf50, #2e7d32, #81c784, #4caf50);
+      clip-path: polygon(50% 0%, 60% 15%, 85% 15%, 70% 30%, 85% 50%, 70% 70%, 85% 85%, 60% 85%, 50% 100%, 40% 85%, 15% 85%, 30% 70%, 15% 50%, 30% 30%, 15% 15%, 40% 15%);
+      border-radius: 50%;
+      box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    }
+
+    .core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #1b5e20, #004d40);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    .orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 260px;
+      height: 260px;
+      border: 2px solid #388e3c; /* Замінив dashed на solid */
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.7;
+    }
+
+    .satellite {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: #43a047;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .text {
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #1b5e20;
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      opacity: 0;
+    }
+
+    .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2e7d32;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #1b5e20;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>Інженерія програмного забезпечення</h1>
+
+  <div id="logo">
+    <div class="orbit" id="orbit"></div>
+    <div class="gear" id="gear"></div>
+    <div class="core" id="core"></div>
+    <div class="satellite" id="satellite"></div>
+    <div class="text" id="logoText"></div>
+  </div>
+
+  <button id="toggleBtn">Запустити / Зупинити анімацію</button>
+
+  <script>
+    const gear = document.getElementById("gear");
+    const core = document.getElementById("core");
+    const satellite = document.getElementById("satellite");
+    const orbit = document.getElementById("orbit");
+    const toggleBtn = document.getElementById("toggleBtn");
+    const textContainer = document.getElementById("logoText");
+
+    const text = "Інженерія програмного забезпечення";
+    text.split("").forEach(ch => {
+      const span = document.createElement("span");
+      span.textContent = ch;
+      span.classList.add("char");
+      textContainer.appendChild(span);
+    });
+
+    const chars = document.querySelectorAll(".char");
+    let running = false;
+    let angle = 0;
+    let scale = 1;
+    let grow = true;
+    let orbitAngle = 0;
+    let animFrame;
+
+    function animateText() {
+      chars.forEach((char, i) => {
+        setTimeout(() => {
+          char.style.transition = "all 0.4s ease";
+          char.style.opacity = 1;
+          char.style.transform = "translateY(0)";
+        }, i * 50);
+      });
+      textContainer.style.transition = "opacity 1s";
+      textContainer.style.opacity = 1;
+    }
+
+    function hideText() {
+      chars.forEach((char, i) => {
+        setTimeout(() => {
+          char.style.transition = "all 0.3s ease";
+          char.style.opacity = 0;
+          char.style.transform = "translateY(10px)";
+        }, i * 40);
+      });
+      textContainer.style.opacity = 0;
+    }
+
+    function animateLogo() {
+      if (!running) return;
+
+      // gear rotation
+      angle += 2;
+      gear.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+
+      // pulsing core
+      if (grow) scale += 0.01;
+      else scale -= 0.01;
+      if (scale > 1.2 || scale < 0.8) grow = !grow;
+      core.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+      // satellite rotation
+      orbitAngle += 3;
+      const rad = orbitAngle * Math.PI / 180;
+      const radius = 130;
+      const x = Math.cos(rad) * radius;
+      const y = Math.sin(rad) * radius;
+      satellite.style.transform = `translate(${x}px, ${y}px)`;
+
+      // orbit color shift
+      orbit.style.borderColor = `hsl(${angle * 3}, 60%, 40%)`;
+
+      animFrame = requestAnimationFrame(animateLogo);
+    }
+
+    toggleBtn.onclick = () => {
+      running = !running;
+      if (running) {
+        animateText();
+        animateLogo();
+      } else {
+        hideText();
+        cancelAnimationFrame(animFrame);
+      }
+    };
+  </script>
+</body>
+</html>

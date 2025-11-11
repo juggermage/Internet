@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Завдання 1 — JavaScript-Анімації</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #e3f2fd;
+    text-align: center;
+    padding-top: 40px;
+  }
+
+  h1 {
+    color: #0d47a1;
+  }
+
+  .circle-move, .blink, .jump {
+    position: absolute;
+  }
+
+  .circle-move {
+    width: 80px;
+    height: 80px;
+    background: #8bc34a;
+    border-radius: 50%;
+    top: 180px;
+    left: calc(50% - 40px);
+  }
+
+  .blink {
+    width: 80px;
+    height: 80px;
+    background: #f44336;
+    border-radius: 10px;
+    top: 350px;
+    left: calc(50% - 40px);
+  }
+
+  .jump {
+    width: 80px;
+    height: 80px;
+    background: #ff9800;
+    border-radius: 8px;
+    top: 500px;
+    left: 100px;
+  }
+
+</style>
+</head>
+<body>
+
+<h1>Завдання 1.Приклади JavaScript-анімацій</h1>
+
+<div class="circle-move" id="circleMove"></div>
+<div class="blink" id="blink"></div>
+<div class="jump" id="jump"></div>
+
+<script>
+/*  Анімація 1: Рух по колу  */
+let circle = document.getElementById("circleMove");
+let angle = 0;
+const radius = 100;
+const centerX = window.innerWidth / 2 - 40;
+const centerY = 200;
+
+function moveInCircle() {
+  angle += 0.03;
+  let x = centerX + Math.cos(angle) * radius;
+  let y = centerY + Math.sin(angle) * radius;
+  circle.style.left = x + "px";
+  circle.style.top = y + "px";
+  requestAnimationFrame(moveInCircle);
+}
+moveInCircle();
+
+/*  Анімація 2: Мерехтіння (зміна прозорості)  */
+let blinkBox = document.getElementById("blink");
+let opacity = 1;
+let fadingOut = true;
+
+function blinkEffect() {
+  opacity += fadingOut ? -0.02 : 0.02;
+  if (opacity <= 0.2 || opacity >= 1) fadingOut = !fadingOut;
+  blinkBox.style.opacity = opacity;
+  requestAnimationFrame(blinkEffect);
+}
+blinkEffect();
+
+/*  Анімація 3: Підстрибування (ефект гравітації)  */
+let jumpBox = document.getElementById("jump");
+let y = 0;
+let velocity = 0;
+let gravity = 0.5;
+let ground = 400;
+let bounce = -0.7;
+
+function jumpAnimation() {
+  velocity += gravity;
+  y += velocity;
+
+  if (y > ground) {
+    y = ground;
+    velocity *= bounce;
+  }
+
+  jumpBox.style.top = (100 + y) + "px";
+  requestAnimationFrame(jumpAnimation);
+}
+jumpAnimation();
+</script>
+
+</body>
+</html>
