@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab 10</title>
+    <a href="https://juggermage.github.io/Internet/">Повернутися на головну</a>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $(function () {
+
+            alert("Бібліотека jQuery підключена та готова!");
+
+            // Завдання 1
+            const $hiddenText = $("#hide_text");
+            $hiddenText.hide();
+
+            $(".button").on("click", function () {
+                $hiddenText.show(200);
+            });
+
+            // Завдання 2
+            const $block2 = $(".task-block").eq(1);
+
+            $block2.find("p:first").text("DOM first!");
+            $block2.find("p:last").text("DOM last!");
+
+            $("#hoverDiv").hover(
+                function () {
+                    $(this).addClass("hoverBox");
+                },
+                function () {
+                    $(this).removeClass("hoverBox");
+                }
+            );
+
+            // Завдання 3 
+            $("#clickBox").on("click", function () {
+                $(this).addClass("activeBox");
+            });
+
+            $("#clickBox").on("dblclick", function () {
+                $(this).removeClass("activeBox");
+            });
+
+            $("#single").on("click", function () {
+                alert("Одинарний клік");
+            });
+
+            $("#double").on("dblclick", function () {
+                alert("Подвійний клік");
+            });
+
+            // Зображення
+            $("#showImg").on("click", function () {
+                $("#demoImg").show();
+            });
+
+            $("#demoImg").on("click", function () {
+                $(this).hide();
+            });
+
+            $("#demoImg").on("mouseover", function () {
+                $(this).attr("title", "Підпис до зображення");
+            });
+
+            // Перевірка correct
+            $("#checkForm").on("submit", function () {
+
+                if ($("input:first").val() === "correct") {
+                    $("#msg").text("Успішно").show();
+                    return true;
+                }
+
+                $("#msg")
+                    .text("Неправильно!")
+                    .show()
+                    .fadeOut(1500);
+
+                return false;
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+
+<h1>Лабораторна робота 10 – jQuery</h1>
+
+<div class="task-block">
+    <a href="#" class="button">Показати текст</a>
+    <div id="hide_text">Демонстраційний прихований текст</div>
+</div>
+
+<div class="task-block">
+    <p>Абзац 1</p>
+    <p>Абзац 2</p>
+
+    <div id="hoverDiv">Наведи мишку на мене</div>
+</div>
+
+<div class="task-block">
+    <div id="clickBox">Клікни мене: одинарний → рамка, подвійний → назад</div>
+
+    <button id="single">Одинарний клік</button>
+    <button id="double">Подвійний клік</button>
+</div>
+
+<div class="task-block">
+    <p id="showImg" class="button">Показати зображення</p>
+
+    <img id="demoImg" src="image.png" alt="photo">
+</div>
+
+<div class="task-block">
+    <p>Введіть слово 'correct'.</p>
+
+    <form id="checkForm" action="javascript:alert('Успішно!');">
+        <input type="text">
+        <input type="submit" value="Перевірити">
+    </form>
+
+    <span id="msg"></span>
+</div>
+
+</body>
+</html>
